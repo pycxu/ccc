@@ -19,10 +19,7 @@ access_token_secret = tw_cdb_credentials.access_token_secret
 
 
 # == couchdb ==
-url_connect = "http://admin:admin@172.17.0.4:5984"
-# couch = couchdb.Server(url=tw_cdb_credentials.url)
-# couch.resource.credentials =tw_cdb_credentials.login
-couch = couchdb.Server(url_connect)
+couch = couchdb.Server(tw_cdb_credentials.url)
 try:
     couch.create('twitter_adelaide')
     db = couch['twitter_adelaide']

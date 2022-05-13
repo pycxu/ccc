@@ -20,6 +20,12 @@ logfile = "Restructure " + datetime.today().strftime("%d-%b-%Y(%H-%M-%S.%f)") + 
 logging.basicConfig(filename=logfile, level=logging.INFO)
 logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
 
+def create_db(db_name):
+    try:
+        couch.create(db_name)
+    except:
+        logging.warning("db exist")
+
 def strip_ahref(text):
     y = re.sub("<a.*\">", "", text)
     x = re.sub("</a>", "", y)
@@ -144,6 +150,9 @@ def restructure_json_couchdb(dict_word, couchdbdoc):
     return text
 
 if __name__ == "__main__":
+    for city in ['twitter_adelaide_processed', 'twitter_sydney_processed', 'twitter_melbourne_processed', 'twitter_perth_processed', 'twitter_brisbane_processed']:
+        create_db(city)
+
     list_word = open("affin.txt", "r")
     word = list_word.readlines()
     value = []
@@ -162,13 +171,10 @@ if __name__ == "__main__":
 
     list_word.close()
     count = 0
-    try:
-        couch.create('twitter_re')
-        db2 = couch['twitter_re']
-    except:
-        db2 = couch['twitter_re']
+
     for city in ['twitter_adelaide', 'twitter_sydney', 'twitter_melbourne', 'twitter_perth', 'twitter_brisbane']:
         db = couch[city]
+        db2 = couch[city+'_processed']
         # the location of twitter data with additional variable and modified json structure
         for docid in db.view('_all_docs'):
             count = count + 1
