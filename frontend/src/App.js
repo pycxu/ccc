@@ -1,4 +1,4 @@
-import React from "react";
+
 import {
     BrowserRouter as Router,
     Routes as Switch,
@@ -6,10 +6,10 @@ import {
     Link
 } from "react-router-dom";
 import "./App.css";
-import Happy from "./components/map/Happy";
-import Income from "./components/map/Income";
-import Unemployment from "./components/map/Unemployment";
-import Spent from "./components/map/Spent";
+// import Happy from "./components/map/Happy";
+// import Income from "./components/map/Income";
+// import Unemployment from "./components/map/Unemployment";
+// import Spent from "./components/map/Spent";
 
 import BarHappy from "./components/barchart/BarHappy";
 import BarIncome from "./components/barchart/BarIncome";
@@ -17,6 +17,7 @@ import BarUnemployment from "./components/barchart/BarUnemployment";
 import BarSpent from "./components/barchart/BarSpent";
 
 function App() {
+
   return (
     <Router>
         <div>
@@ -37,7 +38,7 @@ function App() {
                     <li>
                         <Link to="/incomeCo">gini_coefficient_no</Link>
                     </li>
-                    <li>
+                    {/* <li>
                         <label>Map: </label>
                     </li>
                     <li>
@@ -45,7 +46,7 @@ function App() {
                     </li>
                     <li>
                         <Link to="/i-map">Income</Link>
-                    </li>
+                    </li> */}
                     {/* <li>
                         <Link to="/u-map">Unemployment</Link>
                     </li>
@@ -98,13 +99,13 @@ function App() {
                   } 
                 />
 
-                <Route path="/h-map" element={<Happy />}/>
+                {/* <Route path="/h-map" element={<Happy />}/>
 
                 <Route path="/i-map" element={<Income />}/>
 
                 <Route path="/u-map" element={<Unemployment />}/>
 
-                <Route path="/s-map" element={<Spent />}/>
+                <Route path="/s-map" element={<Spent />}/> */}
 
             </Switch>
         </div>

@@ -3,7 +3,6 @@ import * as d3 from "d3";
 import './BarChart.css';
 import axios from "axios";
 import request from '../../utils/request';
-import { chordTranspose } from "d3";
 
 const margin = {
     top: 20,
@@ -35,14 +34,6 @@ const data = [
     {
         x: "Adelaide",
         y: 90
-    },
-    {
-        x: "Hobart",
-        y: 70
-    },
-    {
-        x: "Darwin",
-        y:70
     }
 ];
 
@@ -53,22 +44,20 @@ function BarHappy() {
     const [value, setValue] = useState(() => data.map(d => ({ ...d, y: 0 })));
     const svgRef = useRef(null);
 
-    const hobart = request.get('/twitter_re/_design/happiness/_view/city_lang?key=["Hobart","en"]', {})
-    const melbourne = request.get('/twitter_re/_design/happiness/_view/city_lang?key=["Melbourne","en"]', {})
-    const sydney = request.get('/twitter_re/_design/happiness/_view/city_lang?key=["Sydney","en"]', {})
-    const adelaide = request.get('/twitter_re/_design/happiness/_view/city_lang?key=["Adelaide","en"]', {})
-    const perth = request.get('/twitter_re/_design/happiness/_view/city_lang?key=["Perth","en"]', {})
-    const darwin = request.get('/twitter_re/_design/happiness/_view/city_lang?key=["Darwin","en"]', {})
-    const brisbane = request.get('/twitter_re/_design/happiness/_view/city_lang?key=["Brisbane","en"]', {})
+    const melbourne = request.get('melbourne', {})
+    const sydney = request.get('sydney', {})
+    const adelaide = request.get('adelaide', {})
+    const perth = request.get('perth', {})
+    const brisbane = request.get('brisbane', {})
 
     
     useEffect(() => {
         const t = d3.transition().duration(1000);
         axios
-        .all([hobart, melbourne, sydney, adelaide, perth, darwin, brisbane])
+        .all([melbourne, sydney, adelaide, perth, brisbane])
         .then(
             axios.spread((...responses) => {
-                let city_list = ["Hobart", "Melbourne", "Sydney", "Adelaide", "Perth", "Darwin", "Brisbane"]
+                let city_list = ["Melbourne", "Sydney", "Adelaide", "Perth", "Brisbane"]
                 const t = d3.transition().duration(1000);
                 let data3 = []
                 let index = 0
@@ -76,7 +65,7 @@ function BarHappy() {
                     
                     data3.push({
                         x: city_list[index],
-                        y: element.data.rows[0].value[0]
+                        y: element
                     })
                     index += 1
                 });    
