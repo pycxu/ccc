@@ -1,0 +1,23 @@
+#Set up Environment for Database instances
+- hosts: instances
+  vars_files:
+    - host_vars/env_instances.yaml
+  gather_facts: true
+
+  roles:
+    - role: env-setup
+    - role: env-common
+    - role: env-volumes 
+    - role: env-docker 
+
+#set up environment for a website instance
+- hosts: websites
+  vars_files:
+    - host_vars/env_websites.yaml
+  gather_facts: true
+
+  roles:
+    - role: env-setup
+    - role: env-common
+    - role: env-volumes 
+    - role: env-docker 

@@ -1,0 +1,4 @@
+---
+- name: Build CouchDB Cluster
+  script: ./setup-couchdb.sh '{{ groups['database'] | map('extract', hostvars, ['ansible_host']) | join(' ') }}'
+  register: outCouchDB
