@@ -3,28 +3,14 @@ from datetime import datetime
 import re
 import string
 import json
-import logging
 import sys
 import langdetect
-import tw_cdb_credentials
+import credentials
 
-url_connect = "http://admin:admin@172.17.0.4:5984"
-couch = couchdb.Server(url_connect)
-# couch = couchdb.Server(url=tw_cdb_credentials.url)
-# couch.resource.credentials = tw_cdb_credentials.login
+couch = couchdb.Server(credentials.url)
+
 #the location of raw twitter data with original json structure
 
-
-logfile = "Restructure " + datetime.today().strftime("%d-%b-%Y(%H-%M-%S.%f)") + ".log"
-
-logging.basicConfig(filename=logfile, level=logging.INFO)
-logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
-
-def create_db(db_name):
-    try:
-        couch.create(db_name)
-    except:
-        logging.warning("db exist")
 
 def strip_ahref(text):
     y = re.sub("<a.*\">", "", text)
@@ -150,9 +136,6 @@ def restructure_json_couchdb(dict_word, couchdbdoc):
     return text
 
 if __name__ == "__main__":
-    for city in ['twitter_adelaide_processed', 'twitter_sydney_processed', 'twitter_melbourne_processed', 'twitter_perth_processed', 'twitter_brisbane_processed']:
-        create_db(city)
-
     list_word = open("affin.txt", "r")
     word = list_word.readlines()
     value = []
@@ -185,7 +168,7 @@ if __name__ == "__main__":
             try:
                 db2.save(json.loads(json.dumps(text)))
             except couchdb.http.ResourceConflict:
-                logging.info("duplicate tweet")
+                pass
 
     #print(str(count) + " text=" + doc['text'] + "\n wordcount=" + str(wordcount) + " tweetscore=" + str(tweetscore) + " worddict=" + str(worddict) + " average=" + str(avgtweetscore))
 
