@@ -36,7 +36,7 @@ const data = [
     }
 ];
 
-const data2 = () => request.post('/unemployment/_find', {
+const data2 = () => request.post('/unemployment/', {
 	"selector": {
        
     },

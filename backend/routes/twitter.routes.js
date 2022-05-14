@@ -1,3 +1,4 @@
+const { response } = require('express');
 const express = require('express');
 const router = express.Router();
 const twitter = require('../models/twitter.model');
@@ -41,6 +42,22 @@ router.get('/perth',  async (req, res) => {
         .then(score => res.json(score))
         .catch(err => res.json({statusCode: err.statusCode, error: err.error}))
 });
+
+router.post('/income_cities', async (req, res) => {
+    console.log(req.body);
+    await twitter
+        .findQuery('income_cities', req.body)
+        .then(response => res.json(response))
+        .catch(err => res.json({statusCode: err.statusCode, error: err.error}))
+})
+
+router.post('/unemployment', async (req, res) => {
+    console.log(req.body);
+    await twitter
+        .findQuery('unemployment', req.body)
+        .then(response => res.json(response))
+        .catch(err => res.json({statusCode: err.statusCode, error: err.error}))
+})
 
 // Routes
 module.exports = router;

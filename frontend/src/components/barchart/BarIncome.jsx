@@ -35,7 +35,7 @@ const data = [
         y: 2900
     }
 ];
-const data2 = () => request.post('/income_cities/_find', {
+const data2 = () => request.post('/income_cities', {
 	"selector": {
        
     },

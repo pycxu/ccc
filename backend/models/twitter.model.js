@@ -14,6 +14,20 @@ const getAveScore = (city, design, view) => {
     });
 }
 
+const findQuery = (dbName, mango) => {
+    return new Promise((resolve, reject) => {
+        const  db = nano.db.use(dbName);
+        db.find(mango, (err, body) => {
+            if(!err) {
+                resolve(body);
+            }else {
+                reject(err);
+            }
+        })
+    });
+}
+
 module.exports = {
-    getAveScore
+    getAveScore,
+    findQuery
 };

@@ -15,7 +15,8 @@ app.use(require('./routes/index.routes'));
 
 // const nano = require('nano')('http://admin:admin@172.26.130.106:5984/');
 // const db = nano.db.use('twitter');
-// app.get('/twitter', (rqs, res) => {
+// app.get('/api/v1/twitter', (rqs, res) => {
+//     console.log("here")
 //     db.view('newDoc', 'newView', (err, body) => {
 //         if(!err) {
 //             res.json(body.rows[0].value[0]);
