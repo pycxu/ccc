@@ -1,4 +1,3 @@
-const { response } = require('express');
 const express = require('express');
 const router = express.Router();
 const twitter = require('../models/twitter.model');
@@ -10,35 +9,35 @@ router.get('/', (req, res) => {
 // Get average sentiment score
 router.get('/adelaide',  async (req, res) => {
     await twitter
-        .getAveScore('adelaide', 'newDoc', 'newView')
+        .getAveScore('adelaide', 'sentiment', 'ave_score')
         .then(score => res.json(score))
         .catch(err => res.json({statusCode: err.statusCode, error: err.error}))
 });
 
 router.get('/sydney',  async (req, res) => {
     await twitter
-        .getAveScore('sydney', 'newDoc', 'newView')
+        .getAveScore('sydney', 'sentiment', 'ave_score')
         .then(score => res.json(score))
         .catch(err => res.json({statusCode: err.statusCode, error: err.error}))
 });
 
 router.get('/brisbane',  async (req, res) => {
     await twitter
-        .getAveScore('brisbane', 'newDoc', 'newView')
+        .getAveScore('brisbane', 'sentiment', 'ave_score')
         .then(score => res.json(score))
         .catch(err => res.json({statusCode: err.statusCode, error: err.error}))
 });
 
 router.get('/melbourne',  async (req, res) => {
     await twitter
-        .getAveScore('melbourne', 'newDoc', 'newView')
+        .getAveScore('melbourne', 'sentiment', 'ave_score')
         .then(score => res.json(score))
         .catch(err => res.json({statusCode: err.statusCode, error: err.error}))
 });
 
 router.get('/perth',  async (req, res) => {
     await twitter
-        .getAveScore('perth', 'newDoc', 'newView')
+        .getAveScore('perth', 'sentiment', 'ave_score')
         .then(score => res.json(score))
         .catch(err => res.json({statusCode: err.statusCode, error: err.error}))
 });
