@@ -1,0 +1,36 @@
+
+---
+#Clone git repo our project
+- name: clone git repo
+  become: yes
+  git:
+    repo: https://github.com/pycxu/ccc.git
+    dest: "{{ project_path }}"
+    force: yes
+
+#Move .dockerignore file from template to server
+- name: move requirements files to server 
+  tags: 'buidBackend'
+  become: yes
+  template:
+    src: '.dockerignore'
+    dest: "{{ backend_path }}"
+
+#Move Dockerfile file from template to server
+- name: move Dockerfile files to server 
+  tags: 'buidBackend'
+  become: yes
+  template:
+    src: 'Dockerfile'
+    dest: "{{ backend_path }}"
+
+
+- name: traverse into the backend directory.
+  become: yes
+  shell: cd
+  args:
+    chdir: "{{ backend_path }}"
+
+- name: Build backend container 
+  script: ./setup-backend.sh 
+  register: buildBackend

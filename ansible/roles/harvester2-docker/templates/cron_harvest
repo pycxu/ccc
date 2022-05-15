@@ -1,2 +1,2 @@
-0 18 * * * sudo docker start twitter_harv
+0 18 * * * cd /home/ubuntu/harvester && sudo docker run -d --name twitter_harv twitter_harvester
 

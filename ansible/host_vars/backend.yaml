@@ -1,0 +1,4 @@
+---
+#set up backend path
+project_path: /home/ubuntu/ccc
+backend_path: /home/ubuntu/ccc/backend

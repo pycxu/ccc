@@ -19,6 +19,8 @@ import Unemployment from './charts/Unemployment';
 import IncomeBiaxial from './charts/IncomeBiaxial';
 import UnemploymentBiaxial from './charts/UnemploymentBiaxial';
 import FacilityBiaxial from './charts/FacilityBiaxial';
+import { Document, Page } from 'react-pdf';
+import sysPDF from './sys.pdf';
 
 const { Header, Sider, Content } = Layout;
 
@@ -123,6 +125,10 @@ const App =  () => {
             <Route path='/income' element={<IncomeBiaxial/>}/>
             <Route path='/unemployment' element={<UnemploymentBiaxial/>}/>
             <Route path='/facility' element={<FacilityBiaxial/>}/>
+            <Route path='/about' element={
+              <object width="100%" height="100%" data={sysPDF} type="application/pdf"></object>
+              }
+            />
           </Routes>
           
         </Content>

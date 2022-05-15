@@ -34,4 +34,12 @@
   align-items: center;
 }
 
+.sysImg-container{
+  height: 40vh;
+  margin-top: 20vh;
+  text-align: center;
+}
 
+.sysImg{
+  height: 100%;
+}
