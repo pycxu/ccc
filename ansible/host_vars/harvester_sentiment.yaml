@@ -1,0 +1,3 @@
+cron_env: /etc/cron.d
+harvester_path: harvester
+sentiment_path: sentiment
