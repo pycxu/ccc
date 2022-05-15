@@ -1,0 +1,68 @@
+---
+#Create directory for sentiment path
+- name: mkdir /sentiment
+  tags: 'sentiment'
+  become: yes
+  file:
+    path: "{{ sentiment_path }}"
+    state: directory
+    recurse: yes
+
+#Move sentiment.py file from template to server
+- name: move sentiment files to server 
+  tags: 'sentiment'
+  become: yes
+  template:
+    src: 'sentiment.py'
+    dest: "{{ sentiment_path }}"
+
+#Move requirements.txt file from template to server
+- name: move requirements files to server 
+  tags: 'sentiment'
+  become: yes
+  template:
+    src: 'requirements.txt'
+    dest: "{{ sentiment_path }}"
+
+#Move Dockerfile file from template to server
+- name: move Dockerfile files to server 
+  tags: 'sentiment'
+  become: yes
+  template:
+    src: 'Dockerfile'
+    dest: "{{ sentiment_path }}"
+
+#Move Dockerfile file from template to server
+- name: move Dockerfile files to server 
+  tags: 'sentiment'
+  become: yes
+  template:
+    src: 'AFINN.txt'
+    dest: "{{ sentiment_path }}"
+
+
+#Move cron_sentiment file from template to server
+- name: move cron_sentiment files to server 
+  tags: 'scheduler'
+  become: yes
+  template:
+    src: 'cron_sentiment'
+    dest: "{{ cron_env }}"
+
+- name: traverse into the sentiment directory.
+  become: yes
+  shell: cd
+  args:
+    chdir: "{{ sentiment_path }}"
+
+- name: Build Twitter Data sentiment container 
+  script: ./setup-data_sentiment.sh
+  register: sentiment
+
+- name: Set up Twitter Data sentiment scheduler 
+  script: ./setup-data_sentiment_scheduler.sh
+  register: scheduler
+
+
+
+

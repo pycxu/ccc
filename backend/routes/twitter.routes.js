@@ -58,5 +58,12 @@ router.post('/unemployment', async (req, res) => {
         .catch(err => res.json({statusCode: err.statusCode, error: err.error}))
 })
 
+router.post('/facility_num', async (req, res) => {
+    console.log(req.body);
+    await twitter
+        .findQuery('facility_num', req.body)
+        .then(response => res.json(response))
+        .catch(err => res.json({statusCode: err.statusCode, error: err.error}))
+})
 // Routes
 module.exports = router;

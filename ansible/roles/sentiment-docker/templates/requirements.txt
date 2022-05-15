@@ -1,0 +1,3 @@
+CouchDB==1.2
+langdetect==1.0.9
+tweepy==4.9.0

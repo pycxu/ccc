@@ -1,0 +1,2 @@
+0 12 * * * sudo docker start twitter_senti
+

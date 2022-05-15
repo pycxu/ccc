@@ -1,0 +1,51 @@
+{
+    "type": "FeatureCollection",
+    "bbox": [
+      0,
+      0,
+      -1,
+      -1
+    ],
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {
+          "facility_num": 753,
+          "lga_name16": "Melbourne (C)"
+        },
+        "id": "national_pollutant_inventory_facilities.2016.17000"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "facility_num": 490,
+          "lga_name16": "Sydney (C)"
+        },
+        "id": "national_pollutant_inventory_facilities.2016.21000"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "facility_num": 606,
+          "lga_name16": "Brisbane (C)"
+        },
+        "id": "national_pollutant_inventory_facilities.2016.34000"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "facility_num": 277,
+          "lga_name16": "Adelaide (C)"
+        },
+        "id": "national_pollutant_inventory_facilities.2016.40800"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "facility_num": 548,
+          "lga_name16": "Perth (C)"
+        },
+        "id": "national_pollutant_inventory_facilities.2016.65000"
+      }
+    ]
+  }

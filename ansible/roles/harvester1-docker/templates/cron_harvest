@@ -1,0 +1,2 @@
+0 6 * * * sudo docker start twitter_harv
+
