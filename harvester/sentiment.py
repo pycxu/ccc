@@ -5,6 +5,13 @@ import string
 import json
 import sys
 import langdetect
+from transformers import AutoModelForSequenceClassification
+from transformers import TFAutoModelForSequenceClassification
+from transformers import AutoTokenizer
+import numpy as np
+from scipy.special import softmax
+import csv
+import urllib.request
 
 couch = couchdb.Server("http://admin:admin@172.26.130.106:5984/")
 
@@ -32,35 +39,73 @@ def strip_all_entities(text):
             text = text.replace(separator, ' ')
     return text
 
-def happiness_score(happinessdict,tweettext):
-    tweettextsplit = tweettext.split()
-    #wordcount = 0
-    worddict = 0
-    tweetscore = 0
-    avgtweetscore = 0
-    for wordtweet in tweettextsplit:
-        #wordcount = wordcount + 1
-        if(wordtweet.isupper()):
-            wordtweet = wordtweet.lower().strip()
-            if wordtweet in happinessdict.keys():
-                dictscore = happinessdict[wordtweet]
-                if(happinessdict[wordtweet]>0):
-                    dictscore = dictscore + 1
-                elif(happinessdict[wordtweet]<0):
-                    dictscore = dictscore - 1
-                tweetscore = tweetscore + dictscore
-                worddict = worddict + 1
-        else:
-            wordtweet = wordtweet.lower().strip()
-            if wordtweet in happinessdict.keys():
-                dictscore = happinessdict[wordtweet]
-                tweetscore = tweetscore + dictscore
-                worddict = worddict + 1
-    if(worddict > 0):
-        avgtweetscore = tweetscore/worddict
-    return avgtweetscore
+def preprocess(text):
+    new_text = []
+    for t in text.split(" "):
+        t = '@user' if t.startswith('@') and len(t) > 1 else t
+        t = 'http' if t.startswith('http') else t
+        new_text.append(t)
+    return " ".join(new_text)
 
-def restructure_json_couchdb(dict_word, couchdbdoc):
+def establish_model(model_load):
+
+    tokenizer = AutoTokenizer.from_pretrained(model_load)
+    model = AutoModelForSequenceClassification.from_pretrained(model_load)
+    model.save_pretrained(model_load)
+    return model, tokenizer
+
+# def happiness_score(happinessdict,tweettext):
+#     tweettextsplit = tweettext.split()
+#     #wordcount = 0
+#     worddict = 0
+#     tweetscore = 0
+#     avgtweetscore = 0
+#     for wordtweet in tweettextsplit:
+#         #wordcount = wordcount + 1
+#         if(wordtweet.isupper()):
+#             wordtweet = wordtweet.lower().strip()
+#             if wordtweet in happinessdict.keys():
+#                 dictscore = happinessdict[wordtweet]
+#                 if(happinessdict[wordtweet]>0):
+#                     dictscore = dictscore + 1
+#                 elif(happinessdict[wordtweet]<0):
+#                     dictscore = dictscore - 1
+#                 tweetscore = tweetscore + dictscore
+#                 worddict = worddict + 1
+#         else:
+#             wordtweet = wordtweet.lower().strip()
+#             if wordtweet in happinessdict.keys():
+#                 dictscore = happinessdict[wordtweet]
+#                 tweetscore = tweetscore + dictscore
+#                 worddict = worddict + 1
+#     if(worddict > 0):
+#         avgtweetscore = tweetscore/worddict
+#     return avgtweetscore
+
+def happiness_score(model, tokenizer, tweettext):
+    text = preprocess(tweettext)
+    encoded_input = tokenizer(text, return_tensors='pt')
+    output = model(**encoded_input)
+    scores = output[0][0].detach().numpy()
+    scores = softmax(scores)
+    labels = ['1 star','2 star','3 star','4 star','5 star']
+
+    ranking = np.argsort(scores)
+    ranking = ranking[::-1]
+    happiness_score = 0
+    for i in range(scores.shape[0]):
+        l = labels[ranking[i]]
+        s = scores[ranking[i]]
+        if l == 'negative':
+            happiness_score += -1 * s
+        elif l == 'positive':
+            happiness_score += s
+        else:
+            happiness_score += 0
+    return happiness_score
+
+
+def restructure_json_couchdb(couchdbdoc, model, tokenizer):
     tweet_text_stripped = strip_links(couchdbdoc['text'])
     tweet_text_stripped = strip_all_entities(tweet_text_stripped)
     #tweet_text = tweet_text_stripped.split()
@@ -71,7 +116,7 @@ def restructure_json_couchdb(dict_word, couchdbdoc):
     except :
         lang = "Not recognized"
 
-    happiness = happiness_score(dict_word,tweet_text_stripped)
+    happiness = happiness_score(model, tokenizer,tweet_text_stripped)
 
     geotweet = []
     coortweet = []
@@ -135,6 +180,8 @@ def restructure_json_couchdb(dict_word, couchdbdoc):
     return text
 
 if __name__ == "__main__":
+    model, tokenizer = establish_model("cardiffnlp/twitter-roberta-base-sentiment")
+
     list_word = open("AFINN.txt", "r")
     word = list_word.readlines()
     value = []
@@ -163,7 +210,7 @@ if __name__ == "__main__":
             i = docid['id']
             doc = db[i]
 
-            text = restructure_json_couchdb(dict_words,doc)
+            text = restructure_json_couchdb(doc,model,tokenizer)
             try:
                 db2.save(json.loads(json.dumps(text)))
             except couchdb.http.ResourceConflict:
