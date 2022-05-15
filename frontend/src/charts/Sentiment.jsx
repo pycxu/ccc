@@ -34,7 +34,7 @@ const Sentiment = () => {
     }
 return (
 <BarChart
-    width={600}
+    width={700}
     height={400}
     data={data}
     margin={{

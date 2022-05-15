@@ -50,24 +50,25 @@ const App =  () => {
               children: [
                 {
                   key: '1.1',
-                  label: 'Average Income',
+                  label: 'Overview',
                   icon: <Link to='/'></Link>
                 },
                 {
                   key: '1.2',
+                  label: 'Average Income',
+                  icon: <Link to='/income'></Link>
+                },
+                {
+                  key: '1.3',
                   label: 'Unemployment Rate',
                   icon: <Link to='/unemployment'></Link>
                 },
                 {
-                  key: '1.3',
+                  key: '1.4',
                   label: 'Facility Number',
                   icon: <Link to='/facility'></Link>
                 },
-                {
-                  key: '1.4',
-                  label: 'Overview',
-                  icon: <Link to='/overview'></Link>
-                }
+                
               ]
             },
             {
@@ -107,10 +108,7 @@ const App =  () => {
           {/* <BarCompare/> */}
           {/* <BarDoubleY /> */}
           <Routes>
-            <Route path='/' element={<IncomeBiaxial/>}/>
-            <Route path='/unemployment' element={<UnemploymentBiaxial/>}/>
-            <Route path='/facility' element={<FacilityBiaxial/>}/>
-            <Route path='/overview' element={
+            <Route path='/' element={
               <div className='chart-container'>
                 <div className='chart-row'>
                   <Sentiment/>
@@ -122,6 +120,9 @@ const App =  () => {
                 </div>
               </div>
             }/>
+            <Route path='/income' element={<IncomeBiaxial/>}/>
+            <Route path='/unemployment' element={<UnemploymentBiaxial/>}/>
+            <Route path='/facility' element={<FacilityBiaxial/>}/>
           </Routes>
           
         </Content>
