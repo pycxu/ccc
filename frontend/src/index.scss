@@ -1,0 +1,11 @@
+@import './global.scss';
+body, html{
+  background-color: $backgroundColor;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none; //for firebox
+  &::-webkit-scrollbar{
+      display: none;
+  }
+}

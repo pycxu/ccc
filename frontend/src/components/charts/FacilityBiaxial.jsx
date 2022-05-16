@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { Chart, Tooltip, Legend, Point, Line, Interval, setGlobal } from "bizcharts";
-import { getUnemploymentWithSocre } from "../utils/helper";
+import { useState, useEffect } from "react";
+import { Chart, Tooltip, Legend, Point, Line, Interval } from "bizcharts";
+import { getFacilityWithSocre } from "../utils/helper";
 
-const UnemploymentBiaxial = () => {
+const FacilityBiaxial = () => {
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
-          await getUnemploymentWithSocre().then(income => {
-            setData(income);
-            setIsLoading(false);
+          let isMounted = true;
+          await getFacilityWithSocre().then(facility => {
+            isMounted && setData(facility);
+            isMounted && setIsLoading(false);
           });
+          return () => { isMounted = false }
         }
         fetchData();
     },[])
@@ -24,14 +26,14 @@ const UnemploymentBiaxial = () => {
             alias: 'sentiment',
             type: 'linear-strict'
         },
-        unemp_rt: {
+        mean_aud: {
             min: 0,
             tickCount: 4,
-            alias: 'unemp_rt',
+            alias: 'facility_num',
             type: 'linear-strict'
         }
     };
-    const colors = ["#6394f9", "#62daaa"];
+    const colors = ["#8884d8", "#62daaa"];
 
     if(isLoading) {
         return (
@@ -42,7 +44,8 @@ const UnemploymentBiaxial = () => {
     }else {
 
     return (
-        <Chart
+        <div id='facility' >
+                    <Chart
         scale={scale}
         autoFit
         height={800}
@@ -56,8 +59,8 @@ const UnemploymentBiaxial = () => {
                 allowAllCanceled={true}
                 items={[
                     {
-                        value: "unemp_rt",
-                        name: "unemp_rt",
+                        value: "facility_num",
+                        name: "facility_num",
                         marker: {
                             symbol: "square",
                             style: { fill: colors[0], r: 5 },
@@ -92,7 +95,7 @@ const UnemploymentBiaxial = () => {
                 }}
             />
             <Tooltip shared />
-            <Interval position="city*unemp_rt" color={colors[0]} />
+            <Interval position="city*facility_num" color={colors[0]} />
             <Line
                 position="city*sentiment"
                 color={colors[1]}
@@ -107,8 +110,9 @@ const UnemploymentBiaxial = () => {
             />
         
         </Chart>
+        </div>
     );
             }
 }
 
-export default UnemploymentBiaxial;
+export default FacilityBiaxial;

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Chart, Tooltip, Legend, Point, Line, Interval, setGlobal } from "bizcharts";
+import { useState, useEffect } from "react";
+import { Chart, Tooltip, Legend, Point, Line, Interval } from "bizcharts";
 import { getIncomeWithSocre } from "../utils/helper";
 
 const IncomeBiaxial = () => {
@@ -8,10 +8,12 @@ const IncomeBiaxial = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+          let isMounted = true;
           await getIncomeWithSocre().then(income => {
-            setData(income);
-            setIsLoading(false);
+            isMounted && setData(income);
+            isMounted && setIsLoading(false);
           });
+          return () => { isMounted = false }
         }
         fetchData();
     },[])
@@ -42,6 +44,7 @@ const IncomeBiaxial = () => {
     }else {
 
     return (
+        <div id='income'>
         <Chart
         scale={scale}
         autoFit
@@ -107,6 +110,8 @@ const IncomeBiaxial = () => {
             />
         
         </Chart>
+        </div>
+
     );
             }
 }

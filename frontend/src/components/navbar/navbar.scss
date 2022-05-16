@@ -1,0 +1,55 @@
+@import '../../global.scss';
+
+.navbar{
+    
+    width: 100%;
+    height: 100px;
+    background-color: $secondaryColor;
+    color: $menuColor;
+    position: fixed;
+    top: 0;
+    z-index: 3;
+
+    &__wrapper{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        .left{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+
+            .logo{
+                height: 100px;
+                width: auto;
+            }
+
+            .title{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                opacity: 0.8;
+                margin-left: 50px;
+            }
+        }
+
+        .right{
+            display: inline-block;
+            width: 80px;
+
+            a{
+                text-decoration: none;
+                color: $menuColor;
+            }
+        }
+        
+
+    }
+
+
+
+}

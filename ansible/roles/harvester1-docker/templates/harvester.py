@@ -33,8 +33,7 @@ city_id = {
     "sydney": "0073b76548e5984f",
     "brisbane": "004ec16c62325149",
     "melbourne": "01864a8a64df9dc4",
-    "perth": "0118c71c0ed41109",
-    "canberra": "01e4b0c84959d430"
+    "perth": "0118c71c0ed41109"
 }
 
 todaytweets = api.search_tweets(q="place:%s" % city_id['adelaide'], count=100,
@@ -48,9 +47,6 @@ for todaytweet in todaytweets:
     current_tweet_id = json_load['id_str']
     begin_tweet_id = json_load['id_str']
 
-
-
-
 def create_db(db_name):
     try:
         couch.create(db_name)
@@ -61,7 +57,7 @@ def create_db(db_name):
 def get_tweets_query(city, page, datetweet, current_id):
     # Authorization to consumer key and consumer secret
     # Calling api
-    api = tweepy.API(auth)
+    api = tweepy.API(auth, wait_on_rate_limit=True)
     last_tweet_id = current_id
     search_tweets_inserted = 0
     timeline_tweets_inserted = 0
@@ -102,40 +98,9 @@ def get_tweets_query(city, page, datetweet, current_id):
             try:
                 db.save(json.loads(json.dumps(text)))
                 search_tweets_inserted = search_tweets_inserted + 1
-                # go through user timeline of the tweet from search query result
-                # tweets_user = api.user_timeline(id=json_load['user']['id_str'], count=15, max_id=json_load['id_str'])
-                # for tweet_user in tweets_user:
-                #     tweetstr = json.dumps(tweet_user._json)
-                #     json_load = json.loads(tweetstr)
-                #     user = {'id_str': json_load['user']['id_str'],
-                #             'screen_name': json_load['user']['screen_name'],
-                #             'location': json_load['user']['location'],
-                #             'verified': json_load['user']['verified'],
-                #             'followers_count': json_load['user']['followers_count'],
-                #             'friends_count': json_load['user']['friends_count'], }
-                #     text = {'_id': json_load['id_str'],
-                #             'created_at': json_load['created_at'],
-                #             'text': json_load['text'],
-                #             'source': json_load['source'],
-                #             'user': user,
-                #             'geo': json_load['geo'],
-                #             'coordinates': json_load['coordinates'],
-                #             'place': json_load['place'],
-                #             'retweet_count': json_load['retweet_count'],
-                #             'favorite_count': json_load['favorite_count'],
-                #             'entities': json_load['entities'],
-                #             'lang': json_load['lang'],
-                #             }
-                #     try:
-                #         db.save(json.loads(json.dumps(text)))
-                #         timeline_tweets_inserted = timeline_tweets_inserted + 1
-                #     except couchdb.http.ResourceConflict:
-                #         pass
 
             except couchdb.http.ResourceConflict:
                 pass
-                # sys.exit(1)
-            # current_tweet_id = tweet.id_str
         print('searching paused')
     return (last_tweet_id, search_tweets_inserted)
 
@@ -153,11 +118,11 @@ if __name__ == "__main__":
     city = "adelaide"
     page = 100  # maximum pages we can get within 15min
     datetweet = (DT.date.today() - DT.timedelta(days=7)).strftime("%Y-%m-%d")
-    timer = 0
+    timer = 900
 
     # run for 999 times just in case you forgot to close it
     for i in range(0, 999):
-        timer = 0
+        timer = 900
         result = get_tweets_query(city, page, datetweet, current_tweet_id)
         current_tweet_id = result[0]
 

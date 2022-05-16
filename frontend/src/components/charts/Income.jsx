@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BarChart,
   Bar,
@@ -8,20 +8,22 @@ import {
   Tooltip,
   Legend
 } from "recharts";
-import { getUnemployment } from "../utils/helper";
+import { getIncome } from "../utils/helper";
 
-const Unemployment = () => {
+const Income = () => {
 
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-       await getUnemployment().then(umemp => {
-        console.log("umemp, ", umemp);
-        setData(umemp);
-        setIsLoading(false);
+      let isMounted = true;
+       await getIncome().then(income => {
+        console.log("income, ", income);
+        isMounted && setData(income);
+        isMounted && setIsLoading(false);
        });
+       return () => { isMounted = false }
     }
     fetchData();
   },[])
@@ -29,13 +31,13 @@ const Unemployment = () => {
   if(isLoading) {
     return (
         <div>
-            Loading...
+            <p>Loading...</p>
         </div>
     );
     }
 return (
 <BarChart
-    width={700}
+    width={600}
     height={400}
     data={data}
     margin={{
@@ -46,13 +48,13 @@ return (
     }}
 >
     <CartesianGrid strokeDasharray="3 3" />
-    <XAxis dataKey="city" />
-    <YAxis yAxisId="left" orientation="left" stroke="#FFC658" />
+    <XAxis dataKey="lga_name16" />
+    <YAxis yAxisId="left" orientation="left" stroke="#6B99F9" />
     <Tooltip />
     <Legend />
-    <Bar yAxisId="left" dataKey="unemp_rt" fill="#FFC658" />
+    <Bar yAxisId="left" dataKey="mean_aud" fill="#6B99F9" />
 </BarChart>
 );
 }
 
-export default Unemployment;
+export default Income;

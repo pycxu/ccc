@@ -1,2 +1,2 @@
-0 12 * * * sudo docker start twitter_senti
+0 12 * * * cd /home/ubuntu/sentiment && sudo docker run -it -d --name twitter_senti twitter_sentiment
 

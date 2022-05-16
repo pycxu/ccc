@@ -1,19 +1,19 @@
-# #deploy twitter harvester to slaves
-# - hosts: slavesDB[0]
-#   vars_files:
-#     - host_vars/harvester_sentiment.yaml
-#   gather_facts: true
+#deploy twitter harvester to slaves
+- hosts: slavesDB[0]
+  vars_files:
+    - host_vars/harvester_sentiment.yaml
+  gather_facts: true
 
-#   roles:
-#     - role: harvester1-docker 
+  roles:
+    - role: harvester1-docker 
 
-# - hosts: slavesDB[-1]
-#   vars_files:
-#     - host_vars/harvester_sentiment.yaml
-#   gather_facts: true
+- hosts: slavesDB[-1]
+  vars_files:
+    - host_vars/harvester_sentiment.yaml
+  gather_facts: true
 
-#   roles:
-#     - role: harvester2-docker 
+  roles:
+    - role: harvester2-docker 
 
 #deploy twitter sentiment to master
 - hosts: masterDB
