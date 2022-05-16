@@ -1,0 +1,26 @@
+#Move .dockerignore file from template to server
+- name: move requirements files to server 
+  tags: 'buidFrontend'
+  become: yes
+  template:
+    src: '.dockerignore'
+    dest: "{{ frontend_path }}"
+
+#Move Dockerfile file from template to server
+- name: move Dockerfile files to server 
+  tags: 'buidFrontend'
+  become: yes
+  template:
+    src: 'Dockerfile'
+    dest: "{{ backend_path }}"
+
+
+- name: traverse into the frontend directory.
+  become: yes
+  shell: cd
+  args:
+    chdir: "{{ frontend_path }}"
+
+- name: Build frontend container 
+  script: ./setup-frontend.sh 
+  register: buildFrontend

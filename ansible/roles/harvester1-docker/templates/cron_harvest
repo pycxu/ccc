@@ -1,2 +1,2 @@
-0 6 * * * cd /home/ubuntu/harvester && sudo docker run -d --name twitter_harv twitter_harvester
+0 6 * * * cd /home/ubuntu/harvester && sudo docker run -it -d --name twitter_harv twitter_harvester
 

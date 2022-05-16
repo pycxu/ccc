@@ -1,0 +1,11 @@
+$menuColor: #FFFFFF;
+$mainColor: #022A58;
+$secondaryColor: #094183;
+$backgroundColor: #EFF2F5;
+$width: 778px;
+
+@mixin mobile {
+    @media (max-width: #{$width}) {
+        @content
+    }
+}

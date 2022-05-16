@@ -5,3 +5,4 @@
 ./harvester_sentiment
 ./add_design_view.sh
 ./aurin.sh
+./deploy_web.sh

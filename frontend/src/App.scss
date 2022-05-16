@@ -1,0 +1,26 @@
+@import './global.scss';
+.app{
+    height: 100vh;
+    .sections{
+        border: solid 10px $backgroundColor;
+        overflow: hidden;
+        width: 80vw;
+        height: calc(100vh - 100px);
+        background-color: $backgroundColor;
+        position: relative;
+        top: 100px;
+        left: 21vw;
+        scroll-behavior: smooth;
+        scroll-snap-type: y mandatory !important; 
+        scrollbar-width: none; //for firebox
+        &::-webkit-scrollbar{
+            display: none;
+        }
+
+        > *{
+            width: 78vw;
+            height: calc(100vh - 100px);
+            scroll-snap-align: start;
+        }
+    }
+}

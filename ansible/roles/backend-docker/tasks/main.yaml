@@ -4,8 +4,10 @@
 - name: clone git repo
   become: yes
   git:
-    repo: https://github.com/pycxu/ccc.git
+    repo: https://github.com/ansible/ansible-examples.git
     dest: "{{ project_path }}"
+    single_branch: yes
+    version: fullstack
     force: yes
 
 #Move .dockerignore file from template to server

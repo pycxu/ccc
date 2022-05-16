@@ -8,8 +8,9 @@ ENV NO_PROXY localhost,127.0.0.1,localaddress,172.16.0.0/12,.melbourne.rc.nectar
 
 
 COPY requirements.txt requirements.txt
-COPY sentiment.py sentiment.py
+COPY tw_cdb_credentials.py tw_cdb_credentials.py
+COPY crawler.py crawler.py
 
 RUN pip3 install -r requirements.txt
 
-CMD [ "python3", "sentiment.py"]
+CMD [ "python3", "crawler.py"]

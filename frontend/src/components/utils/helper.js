@@ -7,6 +7,8 @@ const adelaide = request.get('adelaide', {});
 const perth = request.get('perth', {});
 const brisbane = request.get('brisbane', {});
 
+const apiUrl = 'http://localhost:8080/';
+
 export const getSentiment = async () => {
     let sentiment = [];
     await axios
@@ -27,7 +29,7 @@ export const getSentiment = async () => {
 }
 
 export const getIncome = async () => {
-    const income = await axios.post('http://localhost:8000/api/v1/income_cities', {
+    const income = await axios.post(`${apiUrl}api/v1/income_cities`, {
         "selector": {
            
         },
@@ -58,7 +60,7 @@ export const getIncomeWithSocre = async () => {
 }
 
 export const getUnemployment = async () => {
-    const unemploymentRAW = await axios.post('http://localhost:8000/api/v1/unemployment', {
+    const unemploymentRAW = await axios.post(`${apiUrl}api/v1/unemployment`, {
         "selector": {
            
         },
@@ -117,7 +119,7 @@ export const getUnemploymentWithSocre = async () => {
 }
 
 export const getFacility = async () => {
-    const facility_num = await axios.post('http://localhost:8000/api/v1/facility_num', {
+    const facility_num = await axios.post(`${apiUrl}api/v1/facility_num`, {
         "selector": {
            
         },

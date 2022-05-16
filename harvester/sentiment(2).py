@@ -11,6 +11,7 @@ import credentials
 couch = couchdb.Server(credentials.url)
 
 nltk.download('vader_lexicon')
+# the location of raw twitter data with original json structure
 
 
 def strip_ahref(text):
@@ -133,3 +134,4 @@ if __name__ == "__main__":
                 db2.save(json.loads(json.dumps(text)))
             except couchdb.http.ResourceConflict:
                 pass
+

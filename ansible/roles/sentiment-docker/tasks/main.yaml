@@ -32,14 +32,6 @@
     src: 'Dockerfile'
     dest: "{{ sentiment_path }}"
 
-#Move Dockerfile file from template to server
-- name: move Dockerfile files to server 
-  tags: 'sentiment'
-  become: yes
-  template:
-    src: 'AFINN.txt'
-    dest: "{{ sentiment_path }}"
-
 
 #Move cron_sentiment file from template to server
 - name: move cron_sentiment files to server 

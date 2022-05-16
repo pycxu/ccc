@@ -1,8 +1,0 @@
-#deploy twitter sentiment to master
-- hosts: websites
-  vars_files:
-    - host_vars/backend.yaml
-  gather_facts: true
-
-  roles:
-    - role: backend-docker 
