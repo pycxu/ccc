@@ -6,9 +6,8 @@ import json
 import langdetect
 import nltk
 from nltk.sentiment import SentimentIntensityAnalyzer
-import credentials
 
-couch = couchdb.Server(credentials.url)
+couch = couchdb.Server('http://admin:admin@172.26.130.106:5984/')
 
 nltk.download('vader_lexicon')
 
